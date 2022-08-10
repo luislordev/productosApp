@@ -59,7 +59,7 @@ class _ProductScreenBody extends StatelessWidget {
                       
                       final picker = ImagePicker();
                       final XFile? pickedFile = await picker.pickImage(
-                        source: ImageSource.gallery,
+                        source: ImageSource.camera,
                         imageQuality: 100
                       );
 
@@ -82,9 +82,17 @@ class _ProductScreenBody extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.save_outlined,),
-        onPressed: () async {
+        child: productsService.isSaving
+        ? const CircularProgressIndicator( color: Colors.white,)
+        : const Icon(Icons.save_outlined,),
+        onPressed:  productsService.isSaving
+        ?null
+        : () async {
           if(!productForm.isValidForm()  ) return;
+          final String? imageUrl = await productsService.uploadImage();
+
+          if (imageUrl != null) productForm.product.picture = imageUrl;
+
           await  productsService.saveOrCreate(productForm.product);
         },
       ),
