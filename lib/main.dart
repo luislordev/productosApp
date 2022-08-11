@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
         'home': (_) => const HomeScreen(),
         'product': (_) => const ProductScreen(),
       },
+      scaffoldMessengerKey: NotificationsService.messengerKey,
       theme: ThemeData.light().copyWith(
         scaffoldBackgroundColor: Colors.grey[300],
         appBarTheme: const AppBarTheme(
